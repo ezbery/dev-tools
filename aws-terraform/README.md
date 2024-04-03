@@ -1,3 +1,3 @@
 # Quick start
 
-`docker run --entrypoint=zsh -it aws-terraform`
+`docker run --entrypoint=zsh -it ezbery/aws-terraform:2024-04`
