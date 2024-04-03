@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  aws-terraform:
+    container_name: aws-terraform
+    image: aws-terraform
+    build:
+      dockerfile: Dockerfile
+#    volumes:
+#      - .:/app
+#      - ~/.aws:/root/.aws
