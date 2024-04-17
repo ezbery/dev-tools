@@ -3,9 +3,11 @@ version: "3.8"
 services:
   ubuntu:
     container_name: ubuntu
-    image: ubuntu:24.04
-    #    volumes:
-    #      - .:/app
-    command:
-      - "sleep"
-      - "infinity"
+    image: ezbery/dev-tools:2024-04
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./init.sh:/root/init.sh
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~:/app
