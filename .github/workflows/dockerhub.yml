@@ -44,5 +44,4 @@ jobs:
         id: build-arm
         run: |
           echo building tag: ${{ steps.prepare.outputs.armTag }}
-          docker build -f Dockerfile-arm . -t ${{ steps.prepare.outputs.armTag }}
-
+          docker build -f ubuntu/Dockerfile-arm . -t ${{ steps.prepare.outputs.armTag }}
