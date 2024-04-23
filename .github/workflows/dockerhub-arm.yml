@@ -1,0 +1,44 @@
+name: Docker Hub ARM
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Prepare
+        id: prepare
+        run: |
+          cd ubuntu
+          chmod +x createDockerfiles.sh
+          ./createDockerfiles.sh
+          now=$(date '+%Y-%m')
+          name='${{ vars.REPOIMAGE }}'
+          armTag="${name}:arm-${now}"
+          echo "armTag=$armTag" >> $GITHUB_OUTPUT
+
+      - name: Build and push ARM
+        run: |
+          echo building tag: ${{ steps.prepare.outputs.armTag }}
+          docker buildx build --platform linux/arm64 --file ubuntu/Dockerfile-arm --tag ${{ steps.prepare.outputs.armTag }} --push ubuntu
