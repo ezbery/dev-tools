@@ -27,7 +27,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Prepare Dockerimages
+      - name: Prepare
         id: prepare
         run: |
           cd ubuntu
@@ -40,9 +40,9 @@ jobs:
           echo "armTag=$armTag" >> $GITHUB_OUTPUT
           echo "amdTag=$amdTag" >> $GITHUB_OUTPUT
 
-      - name: Build
-        id: build
+      - name: Build ARM
+        id: build-arm
         run: |
-          echo ${{ steps.prepare.outputs.armTag }}
-          docker build -f Dockerfile-arm -t $armTag
+          echo building tag: ${{ steps.prepare.outputs.armTag }}
+          docker build -f Dockerfile-arm . -t ${{ steps.prepare.outputs.armTag }}
 
