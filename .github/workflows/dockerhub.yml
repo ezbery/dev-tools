@@ -44,5 +44,5 @@ jobs:
           echo amdTag="${name}:amd-${now}"
           echo $armTag
           echo $amdTag
-#          docker build -f Dockerfile-arm -t $armTag
+          docker build -f Dockerfile-arm -t $armTag
 
