@@ -1,4 +1,4 @@
-name: Docker Hub
+name: Docker Hub ARM
 
 on:
   workflow_dispatch:
@@ -36,24 +36,13 @@ jobs:
           now=$(date '+%Y-%m')
           name='${{ vars.REPOIMAGE }}'
           armTag="${name}:arm-${now}"
-          amdTag="${name}:amd-${now}"
           echo "armTag=$armTag" >> $GITHUB_OUTPUT
-          echo "amdTag=$amdTag" >> $GITHUB_OUTPUT
-
-      - name: Build AMD
-        id: build-amd
-        run: |
-          echo building tag: ${{ steps.prepare.outputs.amdTag }}
-          docker build -f ubuntu/Dockerfile-amd . -t ${{ steps.prepare.outputs.amdTag }}
 
       - name: Build ARM
         id: build-arm
         run: |
           echo building tag: ${{ steps.prepare.outputs.armTag }}
           docker build --platform linux/arm64 -f ubuntu/Dockerfile-arm . -t ${{ steps.prepare.outputs.armTag }}
-
-      - name: Push AMD image
-        run: docker push ${{ steps.prepare.outputs.amdTag }}
 
       - name: Push ARM image
         run: docker push ${{ steps.prepare.outputs.armTag }}
