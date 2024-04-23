@@ -1,13 +1,21 @@
 version: "3.8"
 
 services:
-  ubuntu:
-    container_name: ubuntu
-    image: ezbery/dev-tools:2024-04
+  ubuntu-arm:
+    container_name: ubuntu-arm
+    image: ezbery/dev-tools:arm-2024-04
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./init.sh:/root/init.sh
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~:/app
+  ubuntu-x64:
+    container_name: ubuntu-amd
+    image: ezbery/dev-tools:amd-2024-04
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~:/app
