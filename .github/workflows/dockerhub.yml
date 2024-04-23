@@ -40,6 +40,12 @@ jobs:
           echo "armTag=$armTag" >> $GITHUB_OUTPUT
           echo "amdTag=$amdTag" >> $GITHUB_OUTPUT
 
+      - name: Build AMD
+        id: build-amd
+        run: |
+          echo building tag: ${{ steps.prepare.outputs.amdTag }}
+          docker build -f ubuntu/Dockerfile-amd . -t ${{ steps.prepare.outputs.amdTag }}
+
       - name: Build ARM
         id: build-arm
         run: |
