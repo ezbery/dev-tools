@@ -38,11 +38,7 @@ jobs:
           armTag="${name}:arm-${now}"
           echo "armTag=$armTag" >> $GITHUB_OUTPUT
 
-      - name: Build ARM
-        id: build-arm
+      - name: Build and push ARM
         run: |
           echo building tag: ${{ steps.prepare.outputs.armTag }}
           docker buildx build --platform linux/arm64 --file ubuntu/Dockerfile-arm --tag ${{ steps.prepare.outputs.armTag }} --push ubuntu
-
-      - name: Push ARM image
-        run: docker push ${{ steps.prepare.outputs.armTag }}

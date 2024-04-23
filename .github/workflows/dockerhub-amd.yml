@@ -38,11 +38,7 @@ jobs:
           amdTag="${name}:amd-${now}"
           echo "amdTag=$amdTag" >> $GITHUB_OUTPUT
 
-      - name: Build AMD
-        id: build-amd
+      - name: Build and push AMD
         run: |
           echo building tag: ${{ steps.prepare.outputs.amdTag }}
-          docker build -f ubuntu/Dockerfile-amd . -t ${{ steps.prepare.outputs.amdTag }}
-
-      - name: Push AMD image
-        run: docker push ${{ steps.prepare.outputs.amdTag }}
+          docker buildx build --platform linux/amd64 --file ubuntu/Dockerfile-arm --tag ${{ steps.prepare.outputs.amdTag }} --push ubuntu
