@@ -33,16 +33,17 @@ jobs:
           cd ubuntu
           chmod +x createDockerfiles.sh
           ./createDockerfiles.sh
+          now=$(date '+%Y-%m')
+          echo $now
+          name='${{ vars.REPOIMAGE }}'
+          armTag="${name}:arm-${now}"
+          amdTag="${name}:amd-${now}"
+          echo $armTag
+          echo $amdTag
 
       - name: Build
         id: build
         run: |
-          echo now=$(date '+%Y-%m')
-          echo $now
-          echo name='${{ vars.REPOIMAGE }}'
-          echo armTag="${name}:arm-${now}"
-          echo amdTag="${name}:amd-${now}"
-          echo $armTag
-          echo $amdTag
+          echo ${{ steps.prepare.outputs.image }}
           docker build -f Dockerfile-arm -t $armTag
 
